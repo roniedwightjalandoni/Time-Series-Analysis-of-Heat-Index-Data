@@ -190,46 +190,7 @@ def ARIMA_Walk_Forward(y_train, y_test):
   plt.ylabel('Heat Index (°C)')
   plt.show()
   return
-def SARIMA_Walk_Forward(y_train, y_test):
-  start = time.perf_counter()
-  sarima = SARIMAX(
-      y_train,
-      order=(2, 0, 1),
-      seasonal_order=(1, 1, 0, 52),
-      enforce_stationarity=False,
-      enforce_invertibility=False,
-  )
-  smodel_fit = sarima.fit(disp=False)
 
-  predictions = []
-  for t in range(len(y_test)):
-    walk = smodel_fit.forecast(steps=1).iloc[0]
-    predictions.append(walk)
-    smodel_fit = smodel_fit.append(y_test.iloc[t : t + 1], refit=False)
-
-  run_time = time.perf_counter() - start
-
-  y_true = np.asarray(y_test)
-  y_pred = np.asarray(predictions)
-  
-  mae = mean_absolute_error(y_true, y_pred)
-  bias = np.mean(y_pred - y_true)  # forecast - true
-  maxerror = max_error(y_true, y_pred)
-  r_squared = r2_score(y_true, y_pred)
-  print(f'MAE for ARIMA Walk Forward: {mae}')  
-  print(f'Bias for ARIMA Walk Forward: {bias}')
-  print(f'Max Error for ARIMA Walk Forward: {maxerror}')
-  print(f'R Squared for ARIMA Walk Forward: {r_squared}')
-  print(f'Run time for ARIMA Walk Forward: {run_time}')
-
-  plt.plot(heat_index_weekly_test.index, heat_index_weekly_test, label='Actual (True)', color='black', linewidth=1.5, alpha=0.8)
-  plt.plot(heat_index_weekly_test.index, predictions, label='SARIMAX Predicted', color='#d9534f', linestyle='--', linewidth=2)
-  plt.title('SARIMA Walk Forward Prediction')
-  plt.xlabel('Date') 
-  plt.xticks(rotation=45)
-  plt.ylabel('Heat Index (°C)')
-  plt.show()
-  return
 def SARIMAX_Walk_Forward(y_train, x_train, y_test, x_test):
     start = time.perf_counter()
     sarimax = SARIMAX(
