@@ -5,7 +5,7 @@ library(tseries)
 library(ranger)     
 install.packages(ranger)
 
-data <- read_csv("C:/Users/Rey Leonard Garcia/Downloads/Climate-Data (1).csv",
+data <- read_csv() #<- File Directory Here
                  col_types = cols(date = col_character(), .default = col_guess())) %>%
   mutate(date = as.Date(date, format = "%d/%m/%Y")) %>%
   select(date, adm4_pcode, heat_index, solar_rad, wind_speed, uv_rad)
