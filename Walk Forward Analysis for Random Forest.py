@@ -6,7 +6,7 @@ import time
 import pandas as pd
 
 
-data = pd.read_csv("C:\\Users\\Yani\\Downloads\\TSA\\Climate Data.csv")
+data = pd.read_csv("") #File Directory Here
 data["date"] = pd.to_datetime(data["date"],format='%d/%m/%Y')
 data.set_index(data['date'], inplace = True)
 data = data[['date','heat_index','solar_rad','wind_speed','uv_rad']]
